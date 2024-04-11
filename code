@@ -1,0 +1,95 @@
+package pack;
+public class NewClass {
+    public String name;
+    public Double price;
+    public String instock;
+
+    public NewClass(String name, Double price, String instock) {
+        this.name = name;
+        this.price = price;
+        this.instock = instock;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getinstock() {
+        return instock;
+    }
+
+    public Double getprice() {
+        return price;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setprice(Double price ){
+        this.price = price;
+    }
+
+    public void setinstock(String instock) {
+        this.instock = instock;
+    }
+
+    @Override
+    public String toString() {
+        return "product{" + "name=" + name + ", price=" +price + ", instock=" + instock + '}';
+    }
+    
+}
+
+
+
+
+
+
+<%@page import="java.util.*"%>
+
+<%@page import="pack.NewClass"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+        <style>
+            table,th,td{
+                border : 2px solid black;
+            }
+        </style>
+    </head>
+    <body>
+       <%
+       ArrayList<NewClass> al=new ArrayList<NewClass>();
+        al.add(new NewClass("product1",10.99,"yes"));
+        al.add(new NewClass("product2",5.99,"no"));
+        al.add(new NewClass("product3",20.50,"yes"));
+      
+
+       
+        Collections.sort(al, new Comparator<NewClass>()
+       {
+       public int compare(NewClass s1,NewClass s2)
+       {
+        return s1.price.compareTo(s2.price);
+        }
+       }
+        );
+       pageContext.setAttribute("stu", al);
+       %>
+       <table ><tr ><th>Name</th><th>price</th><th>InS</th></tr>
+           
+       <c:forEach items="${pageScope.stu}" var="stu" varStatus="status">
+           
+                   <tr ><td><c:out value="${stu.name}"/></td>
+                   <td>$<c:out value="${stu.price}"/></td>
+                   <td><c:out value="${stu.instock}"/></td></tr>
+             
+           
+       </c:forEach>
+       </table>
+    </body>
